@@ -99,6 +99,17 @@ async def global_exception_handler(request: Request, exc: Exception):
 # ---------------------------------------------------------------------------
 # Endpoints
 # ---------------------------------------------------------------------------
+from fastapi.responses import HTMLResponse, JSONResponse
+
+# ... (keep existing imports) ...
+
+@app.get('/', response_class=HTMLResponse)
+async def serve_frontend():
+    """Serve the user-friendly graphical dashboard."""
+    html_path = os.path.join(os.path.dirname(__file__), 'index.html')
+    with open(html_path, 'r', encoding='utf-8') as f:
+        return f.read()
+
 @app.post('/score', response_model=ScoringResponse)
 async def score_transaction(
     req: ScoringRequest,

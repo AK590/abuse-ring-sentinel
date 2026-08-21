@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Risk Platform | Sentinel v2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-active { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 600; }
+        .tab-inactive { color: #6b7280; font-weight: 500; }
+        .tab-inactive:hover { color: #374151; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-indigo-900 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                <h1 class="text-xl font-bold">Sentinel <span class="text-indigo-300 text-sm font-normal">Unified Risk Platform</span></h1>
+            </div>
+            <div class="text-sm bg-indigo-800 px-3 py-1 rounded-full border border-indigo-700">Multi-Event AI Engine Active</div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-6 max-w-6xl mt-4 flex-1 flex flex-col">
+        
+        <!-- Tabs -->
+        <div class="flex space-x-8 border-b border-gray-200 mb-6 px-2">
+            <button onclick="setTab('transaction')" id="tab-transaction" class="pb-3 tab-active text-sm flex items-center">
+                <span class="mr-2">💸</span> Financial Transaction
+            </button>
+            <button onclick="setTab('login')" id="tab-login" class="pb-3 tab-inactive text-sm flex items-center transition-colors">
+                <span class="mr-2">🔐</span> Account Login
+            </button>
+            <button onclick="setTab('registration')" id="tab-registration" class="pb-3 tab-inactive text-sm flex items-center transition-colors">
+                <span class="mr-2">📝</span> New Registration
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Side: Dynamic Form -->
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <h2 id="form-title" class="text-lg font-semibold border-b pb-2 mb-4 text-gray-700">Evaluate Payment Transaction</h2>
+                
+                <form id="scoreForm" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 mb-1" id="lbl-event-id">Transaction ID</label>
+                            <input type="text" id="transaction_id" value="txn_12345" class="w-full border rounded-md p-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-gray-50">
+                        </div>
+                        <div id="wrapper-amount">
+                            <label class="block text-xs font-medium text-gray-500 mb-1">Amount ($)</label>
+                            <input type="number" id="amount" value="499.00" class="w-full border rounded-md p-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 mb-1" id="lbl-user-id">User ID</label>
+                            <input type="text" id="user_id" value="usr_889" class="w-full border rounded-md p-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 mb-1">IP Address</label>
+                            <input type="text" id="ip" value="203.0.113.45" class="w-full border rounded-md p-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 mb-1">Device Hash (Fingerprint)</label>
+                            <input type="text" id="device_hash" value="dev_abc123" class="w-full border rounded-md p-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                        <div id="wrapper-instrument">
+                            <label class="block text-xs font-medium text-gray-500 mb-1">Instrument ID (Card/Bank)</label>
+                            <input type="text" id="instrument_id" value="card_9901" class="w-full border rounded-md p-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btn-submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg mt-4 transition-colors flex items-center justify-center shadow-lg shadow-indigo-200">
+                        <span>Analyze Transaction Risk</span>
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right Side: Results -->
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 flex flex-col h-full min-h-[400px]">
+                <h2 class="text-lg font-semibold border-b pb-2 mb-4 text-gray-700 flex justify-between items-center">
+                    AI Decision Engine
+                    <span class="text-[10px] bg-gray-100 text-gray-400 px-2 py-1 rounded">XGBoost + R-GCN</span>
+                </h2>
+                
+                <div id="loading" class="hidden flex-1 flex flex-col items-center justify-center text-gray-400">
+                    <svg class="animate-spin h-8 w-8 mb-4 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <p class="font-medium">Evaluating multi-vector features...</p>
+                </div>
+
+                <div id="initial-state" class="flex-1 flex flex-col items-center justify-center text-gray-400 text-sm">
+                    <svg class="w-16 h-16 mb-3 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <p>Submit an event to view risk analysis.</p>
+                </div>
+
+                <div id="result-state" class="hidden fade-in flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Recommended Action</p>
+                                <div id="action-badge" class="mt-1 px-4 py-2 inline-flex items-center text-2xl font-black rounded-lg">
+                                    <!-- Injected by JS -->
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Risk Score</p>
+                                <p id="risk-score" class="text-4xl font-light text-gray-800">0.00</p>
+                            </div>
+                        </div>
+
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                            <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            SHAP Explainability (Top Signals)
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-3 space-y-3 mb-6 border border-gray-100" id="shap-container">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <div class="border-t pt-4 grid grid-cols-3 gap-2 text-center text-[10px] text-gray-400 uppercase tracking-wider">
+                        <div><span class="block font-bold text-gray-700 text-sm" id="lat-l0">0ms</span>L0 Blocklist</div>
+                        <div class="border-l border-r border-gray-100"><span class="block font-bold text-gray-700 text-sm" id="lat-feat">0ms</span>Feature Fetch</div>
+                        <div><span class="block font-bold text-gray-700 text-sm" id="lat-model">0ms</span>AI Inference</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 'transaction';
+
+        function setTab(tabName) {
+            currentTab = tabName;
+            
+            // Update Tab UI
+            ['transaction', 'login', 'registration'].forEach(t => {
+                const el = document.getElementById('tab-' + t);
+                if (t === tabName) {
+                    el.className = 'pb-3 tab-active text-sm flex items-center transition-colors';
+                } else {
+                    el.className = 'pb-3 tab-inactive text-sm flex items-center transition-colors';
+                }
+            });
+
+            // Dynamic Form UI
+            const lblEvent = document.getElementById('lbl-event-id');
+            const lblUser = document.getElementById('lbl-user-id');
+            const wrapAmount = document.getElementById('wrapper-amount');
+            const wrapInst = document.getElementById('wrapper-instrument');
+            const btnSubmit = document.getElementById('btn-submit');
+            const formTitle = document.getElementById('form-title');
+            
+            if (tabName === 'transaction') {
+                formTitle.innerText = 'Evaluate Payment Transaction';
+                lblEvent.innerText = 'Transaction ID';
+                lblUser.innerText = 'User ID';
+                wrapAmount.style.display = 'block';
+                wrapInst.style.display = 'block';
+                btnSubmit.querySelector('span').innerText = 'Analyze Transaction Risk';
+                document.getElementById('transaction_id').value = 'txn_' + Math.floor(Math.random()*10000);
+            } else if (tabName === 'login') {
+                formTitle.innerText = 'Evaluate Login Attempt';
+                lblEvent.innerText = 'Session ID / Attempt ID';
+                lblUser.innerText = 'Target Account ID';
+                wrapAmount.style.display = 'none';
+                wrapInst.style.display = 'none';
+                btnSubmit.querySelector('span').innerText = 'Analyze Login Risk';
+                document.getElementById('transaction_id').value = 'login_' + Math.floor(Math.random()*10000);
+            } else if (tabName === 'registration') {
+                formTitle.innerText = 'Evaluate New Registration';
+                lblEvent.innerText = 'Registration Session ID';
+                lblUser.innerText = 'Generated User ID';
+                wrapAmount.style.display = 'none';
+                wrapInst.style.display = 'none';
+                btnSubmit.querySelector('span').innerText = 'Analyze Registration Risk';
+                document.getElementById('transaction_id').value = 'reg_' + Math.floor(Math.random()*10000);
+            }
+
+            // Reset Right Panel
+            document.getElementById('initial-state').classList.remove('hidden');
+            document.getElementById('result-state').classList.add('hidden');
+            document.getElementById('loading').classList.add('hidden');
+        }
+
+        document.getElementById('scoreForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            document.getElementById('initial-state').classList.add('hidden');
+            document.getElementById('result-state').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+
+            const isTx = currentTab === 'transaction';
+            
+            // Auto-generate a new ID on every click so velocity counters increase
+            const currentPrefix = isTx ? 'txn_' : (currentTab === 'login' ? 'login_' : 'reg_');
+            const newTxId = currentPrefix + Math.floor(Math.random()*1000000);
+            document.getElementById('transaction_id').value = newTxId;
+
+            const payload = {
+                transaction_id: newTxId,
+                user_id: document.getElementById('user_id').value,
+                device_hash: document.getElementById('device_hash').value,
+                // For non-transactions, we send placeholder values that pass strict backend validation
+                instrument_id: isTx ? document.getElementById('instrument_id').value : `none_${currentTab}`,
+                ip: document.getElementById('ip').value,
+                amount: isTx ? parseFloat(document.getElementById('amount').value) : 0.01,
+                timestamp: new Date().toISOString(),
+                merchant_category_id: "5732"
+            };
+
+            try {
+                const response = await fetch('/score', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await response.json();
+
+                // Build UI
+                const badge = document.getElementById('action-badge');
+                if (data.action === 'BLOCK') {
+                    badge.className = "mt-1 px-4 py-2 inline-flex items-center text-2xl font-black rounded-lg bg-red-100 text-red-700";
+                    badge.innerHTML = '🚫 BLOCK';
+                } else if (data.action === 'CHALLENGE') {
+                    badge.className = "mt-1 px-4 py-2 inline-flex items-center text-2xl font-black rounded-lg bg-yellow-100 text-yellow-700";
+                    badge.innerHTML = '⚠️ CHALLENGE';
+                } else {
+                    badge.className = "mt-1 px-4 py-2 inline-flex items-center text-2xl font-black rounded-lg bg-green-100 text-green-700";
+                    badge.innerHTML = '✅ ALLOW';
+                }
+
+                document.getElementById('risk-score').innerText = data.final_score.toFixed(4);
+
+                // Build SHAP
+                const shapContainer = document.getElementById('shap-container');
+                shapContainer.innerHTML = '';
+                data.top_features.forEach(f => {
+                    const isRisky = f.shap_contribution > 0;
+                    const color = isRisky ? 'text-red-600 bg-red-50' : 'text-green-600 bg-green-50';
+                    const sign = isRisky ? '+' : '';
+                    let fname = f.name.replace(/_/g, ' ');
+                    
+                    shapContainer.innerHTML += `
+                        <div class="flex justify-between items-center text-sm p-2 rounded ${color}">
+                            <span class="font-medium capitalize">${fname} 
+                                <span class="text-[10px] opacity-70 ml-1 block sm:inline">(val: ${f.value})</span>
+                            </span>
+                            <span class="font-bold whitespace-nowrap">${sign}${f.shap_contribution.toFixed(4)}</span>
+                        </div>
+                    `;
+                });
+
+                // Build Latency
+                document.getElementById('lat-l0').innerText = data.latency_ms.l0 + 'ms';
+                document.getElementById('lat-feat').innerText = data.latency_ms.feature_fetch + 'ms';
+                document.getElementById('lat-model').innerText = data.latency_ms.model + 'ms';
+
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('result-state').classList.remove('hidden');
+
+            } catch (err) {
+                alert('Error connecting to API. Check console.');
+                console.error(err);
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('initial-state').classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
