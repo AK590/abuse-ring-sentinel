@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: abuse-ring-sentinel
+    env: python
+    buildCommand: "pip install uv && uv pip install --system -e . && python data/synthetic_generator.py && python src/tabular/train.py && python src/graph/batch_score.py"
+    startCommand: "uvicorn src.api.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
