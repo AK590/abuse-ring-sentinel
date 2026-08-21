@@ -1,0 +1,21 @@
+Metadata-Version: 2.4
+Name: abuse-ring-sentinel
+Version: 0.1.0
+Summary: Abuse-Ring Sentinel v2
+Author: Razorpay Builder
+Requires-Python: >=3.11
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: xgboost
+Requires-Dist: dgl
+Requires-Dist: torch
+Requires-Dist: redis
+Requires-Dist: sqlalchemy
+Requires-Dist: fakeredis
+Requires-Dist: shap
+Requires-Dist: pytest
+Requires-Dist: httpx
+Requires-Dist: pyyaml
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: apscheduler

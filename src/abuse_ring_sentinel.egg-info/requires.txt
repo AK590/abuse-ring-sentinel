@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+xgboost
+dgl
+torch
+redis
+sqlalchemy
+fakeredis
+shap
+pytest
+httpx
+pyyaml
+pandas
+numpy
+apscheduler

@@ -1,0 +1,13 @@
+cost:
+  false_positive_ltv: 45.0
+  false_negative_chargeback: 900.0
+thresholds:
+  challenge: 0.24
+  block: 0.29
+label_lag:
+  exclude_last_n_days: 60
+batch_job:
+  ring_score_refresh_hours: 6
+  staleness_alert_multiplier: 2.0
+realtime:
+  velocity_windows_minutes: [5, 60]
